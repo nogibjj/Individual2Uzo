@@ -1,3 +1,4 @@
+[![Rust CLI Binary](https://github.com/nogibjj/Individual2Uzo/actions/workflows/cicd.yml/badge.svg)](https://github.com/nogibjj/Individual2Uzo/actions/workflows/cicd.yml)
 
 # Purpose
 This purpose of this lab was to setup code that will take a csv file, create a SQL database, and utilize SQLite to perform CRUD (Create, Read, Update, Delete) Operations.  This library was utilized to make performing CRUD Operations with the database all through the command line, giving the project a CLI. Command line interfaces are important for the use of easy to use and integrate SQL into Rust and utilize it seamlessly. Rusqlite will be the library crate utilized for this process. 
@@ -102,5 +103,5 @@ Archive Binary
 - This made the process much faster and I also learned a lot along the way. Understanding how tools like `cargo release` optimize the build of Rust code was probably the biggest eye-opener for me. 
 
 ## :ballot_box_with_check: Demo Video
-The entire process of configuring the Rust CLI Binary is explained in a demo video available at the following link : 
+The entire process of configuring the Rust CLI Binary is explained in a demo video available at the following link : https://youtu.be/rhrxCb1SKuo 
 
