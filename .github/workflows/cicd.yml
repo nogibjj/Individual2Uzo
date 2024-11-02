@@ -38,7 +38,7 @@ jobs:
       run: make test
 
     - name: Archive Binary
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: optimized-binary
         path: rust-cli-binary/target/debug/rust-cli-binary
