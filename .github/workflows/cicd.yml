@@ -1,3 +1,4 @@
+name: Rust CLI Binary
 on:
   push:
     branches: [ "main" ]
@@ -8,23 +9,36 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v3
-      - name: install packages
-        run: make install
-      - name: lint
-        run: make lint
-      - name: extract 
-        run: make extract 
-      - name: transform_load
-        run: make transform_load 
-      - name: query
-        run: make query
-      - name: test
-        run: make test
-      - name: format
-        run: make format
-      - name: generate_and_push
-        run: make generate_and_push
-      - name: deploy
-        run: make deploy
+    - uses: actions/checkout@v3
+    - uses: actions-rs/toolchain@v1
+      with:
+          toolchain: stable
+          profile: minimal
+          components: clippy, rustfmt
+          override: true
+
+    - name: Check Rust versions
+      run: make rust-version
+
+    - name: Install Dependencies
+      run: make install
+
+    - name: Build Rust
+      run: make release
+
+    - name: Format the Code
+      run: make format
+
+    - name: Make Lint
+      run: make lint
+
+    - name: Make Test
+      run: make test
+
+    - name: Archive Binary
+      uses: actions/upload-artifact@v2
+      with:
+        name: optimized-binary
+        path: rust-cli-binary/target/debug/rust-cli-binary
