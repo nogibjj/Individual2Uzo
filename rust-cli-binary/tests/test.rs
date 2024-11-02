@@ -31,6 +31,9 @@ mod tests {
             [],
         )
         .unwrap();
+
+        // Explicitly drop the connection to ensure it’s closed
+        drop(conn);
     }
 
     #[test]
@@ -65,7 +68,9 @@ mod tests {
                 params![],
                 |row| row.get(0),
             )
-            .unwrap();
+            .unwrap_or_else(|e| {
+                panic!("Expected row not found in test_create: {:?}", e);
+            });
         assert_eq!(total, 3000);
     }
 
@@ -106,7 +111,9 @@ mod tests {
                 params![],
                 |row| row.get(0),
             )
-            .unwrap();
+            .unwrap_or_else(|e| {
+                panic!("Expected row not found or update failed in test_update: {:?}", e);
+            });
         assert_eq!(total, 4500);
     }
 
@@ -131,8 +138,11 @@ mod tests {
                 params![],
                 |row| row.get(0),
             )
-            .unwrap();
+            .unwrap_or_else(|e| {
+                panic!("Expected row not found or deletion failed in test_delete: {:?}", e);
+            });
         assert_eq!(count, 0, "Expected no records with id = 10, found {}", count);
     }
 }
+
 
