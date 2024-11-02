@@ -38,7 +38,7 @@ mod tests {
 
     #[test]
     fn test_extract() {
-        reset_db("test_unisexDB.db");
+        INIT.call_once(|| reset_db("test_unisexDB.db"));
 
         let test_url = "https://github.com/fivethirtyeight/data/raw/refs/heads/master/unisex-names/unisex_names_table.csv";
         let test_path = "test_unisex_names.csv";
@@ -56,7 +56,7 @@ mod tests {
     #[test]
     fn test_create() {
         let db_path = "test_unisexDB.db";
-        reset_db(db_path);  // Reset database before the test
+        INIT.call_once(|| reset_db(db_path));
 
         let result = create(db_path, 7, "Alex", 3000, 0.45, 0.55, 0.1);
         assert!(result.is_ok(), "Create function failed with {:?}", result);
@@ -72,12 +72,15 @@ mod tests {
                 panic!("Expected row not found in test_create: {:?}", e);
             });
         assert_eq!(total, 3000);
+
+        // Close the connection
+        drop(conn);
     }
 
     #[test]
     fn test_read() {
         let db_path = "test_unisexDB.db";
-        reset_db(db_path);  // Reset database before the test
+        INIT.call_once(|| reset_db(db_path));
 
         let conn = Connection::open(db_path).unwrap();
         conn.execute(
@@ -88,12 +91,15 @@ mod tests {
 
         let result = read(db_path);
         assert!(result.is_ok(), "Read function failed with {:?}", result);
+
+        // Close the connection
+        drop(conn);
     }
 
     #[test]
     fn test_update() {
         let db_path = "test_unisexDB.db";
-        reset_db(db_path);  // Reset database before the test
+        INIT.call_once(|| reset_db(db_path));
 
         let conn = Connection::open(db_path).unwrap();
         conn.execute(
@@ -115,12 +121,15 @@ mod tests {
                 panic!("Expected row not found or update failed in test_update: {:?}", e);
             });
         assert_eq!(total, 4500);
+
+        // Close the connection
+        drop(conn);
     }
 
     #[test]
     fn test_delete() {
         let db_path = "test_unisexDB.db";
-        reset_db(db_path);  // Reset database before the test
+        INIT.call_once(|| reset_db(db_path));
 
         let conn = Connection::open(db_path).unwrap();
         conn.execute(
@@ -142,7 +151,11 @@ mod tests {
                 panic!("Expected row not found or deletion failed in test_delete: {:?}", e);
             });
         assert_eq!(count, 0, "Expected no records with id = 10, found {}", count);
+
+        // Close the connection
+        drop(conn);
     }
 }
+
 
 
