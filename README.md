@@ -58,14 +58,10 @@ Test connection
 ##### Rust binary that has been compiled in an optimized form.
 * A process has been established using GitHub Actions to automate the building and storage of the Rust binary. With 'release' utilized for the build, the binary is then made available for download at the 'rust-cli-binary/target/release/rust-cli-binary' path.
 
-![image](https://github.com/nogibjj/IDS706-Individual-Project-2-sp699/assets/143478016/51b9e45c-aa07-4e51-8416-c119848c4f48)
-#### `Section 4` GitHub Copilot
-##### Use of GitHub Copilot
-* How to utilize GitHub Copilot in coding process
-  - Ask about the coding when writing the Rust CRUD file.
-  - Inquire about why the code isn't running.
-  - Seek assistance with setting up GitHub configuration.
-#### `Section 5` GitHub Actions
+Archive Binary 
+![alt text](image-4.png)
+
+#### `Section 4` GitHub Actions
 ##### Test, Build, and Lint Rust Code
 * Using the __`cargo`__ command, the GitHub Actions file can test, build, and lint your Rust code effectively.
 1. __`Test`__
@@ -84,11 +80,8 @@ Test connection
   - Use `cargo clippy --quiet`.
   - '--quiet' helps get only the resulting errors and warnings displayed without any additional output.
 
-4. Archive Binary 
-![alt text](image-4.png)
 
-
-#### `Section 6` Result of Rust Performance
+#### `Section 4` Result of Rust Performance
 ##### See the result of the rust code.
 * When executing `cargo run`, the successful processing of the CRUD operations can be observed.
 
@@ -101,9 +94,9 @@ Test connection
 - Delete / Read : ![alt text](image-2.png)
 
 
-
 ## Use of Gen-AI 
-- I utilized Generative AI to update my former code from python to rust and well as helping me solve errors in my github actions! Here is a sample of the work it helped me complete. 
+- I utilized Generative AI (Chat-GPT) to update my former code from python to rust and well as helping me solve errors in my github actions! Here is a sample of the work it helped me complete.
+### Example 
 ![alt text](image-3.png)
 
 - This made the process much faster and I also learned a lot along the way. Understanding how tools like `cargo release` optimize the build of Rust code was probably the biggest eye-opener for me. 
