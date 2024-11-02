@@ -68,31 +68,33 @@ mod tests {
     }
 
     #[test]
-    fn test_update() {
-        let db_path = "test_unisexDB.db";
-        let conn = Connection::open(db_path).unwrap();
+fn test_update() {
+    let db_path = "test_unisexDB.db";
+    
+    // Reset and recreate the database
+    reset_db(db_path);
 
-        // Clear the table at the beginning of the test
-        conn.execute("DELETE FROM unisex_names", []).unwrap();
+    // Insert a record to ensure it exists for updating
+    let conn = Connection::open(db_path).unwrap();
+    conn.execute(
+        "INSERT INTO unisex_names (id, name, total, male_share, female_share, gap) VALUES (9, 'Jordan', 4000, 0.50, 0.50, 0.0)",
+        [],
+    ).unwrap();
 
-        conn.execute(
-            "INSERT INTO unisex_names (id, name, total, male_share, female_share, gap) VALUES (9, 'Jordan', 4000, 0.50, 0.50, 0.0)",
-            [],
+    // Attempt to update the record
+    let result = update(db_path, 9, "Jordan Updated", 4500, 0.55, 0.45, 0.1);
+    assert!(result.is_ok(), "Update function failed with {:?}", result);
+
+    // Verify the updated data
+    let total: i32 = conn
+        .query_row(
+            "SELECT total FROM unisex_names WHERE id = 9 AND name = 'Jordan Updated'",
+            params![],
+            |row| row.get(0),
         )
         .unwrap();
-
-        let result = update(db_path, 9, "Jordan", 4500, 0.50, 0.50, 0.0);
-        assert!(result.is_ok(), "Update function failed with {:?}", result);
-
-        let total: i32 = conn
-            .query_row(
-                "SELECT total FROM unisex_names WHERE id = 9 AND name = 'Jordan'",
-                params![],
-                |row| row.get(0),
-            )
-            .unwrap();
-        assert_eq!(total, 4500);
-    }
+    assert_eq!(total, 4500);
+}
 
     #[test]
     fn test_delete() {
